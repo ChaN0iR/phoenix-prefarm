@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>菲歐妮 Phoenix 預刷材料追蹤</title>
+<meta name="description" content="絕區零 3.3 菲歐妮 Phoenix 預刷材料追蹤：輸入持有數量，自動折算進度。資料只存在你的瀏覽器。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="菲歐妮 Phoenix 預刷材料追蹤">
+<meta property="og:description" content="輸入持有數量，自動折算異常認證章、引燃晶片、喋血穢羽的預刷進度。資料只存在你的瀏覽器。">
+<meta property="og:image" content="https://chan0ir.github.io/phoenix-prefarm/assets/feather.png">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f5f5f4;color:#1c1917;font:16px/1.6 -apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+main{max-width:720px;margin:0 auto;padding:16px}
+h1{font-size:1.4rem;margin:8px 0 4px}
+.small{font-size:.85rem;color:#57534e}
+.card{background:#fff;border:1px solid #e7e5e4;border-radius:10px;padding:14px;margin-top:12px}
+.row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 10px;margin-bottom:4px}
+.bar{height:8px;background:#e7e5e4;border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:#a8a29e;transition:width .2s}
+.bar.mid i{background:#d97706}.bar.hi i{background:#16a34a}.bar.low i{background:#dc2626}
+.items{display:flex;flex-wrap:wrap;gap:8px 12px;margin-top:10px}
+.items label{display:flex;flex-direction:column;gap:2px;flex:1 1 140px;min-width:0}
+.n{display:flex;align-items:center;gap:6px;line-height:1.2;font-size:.9rem}
+.n img{flex:none;object-fit:contain}
+.t{color:#78716c;font-size:.8rem}
+input{width:100%;text-align:right;font-size:16px;padding:6px 8px;border:1px solid #d6d3d1;border-radius:6px;background:#fff}
+button{font:inherit;font-size:.9rem;padding:4px 14px;border:1px solid #a8a29e;background:#fff;border-radius:6px;cursor:pointer}
+footer{margin:20px 0 40px}footer p{margin:4px 0}
+@media(max-width:480px){.items label{flex-basis:45%}}
+</style>
+</head>
+<body>
+<main>
+<h1>菲歐妮 Phoenix 預刷材料追蹤</h1>
+<div class="small" id="top"></div>
+<div class="card"><div class="row"><b>總進度</b><span class="small" id="allt"></span></div><div class="bar" id="allb"><i></i></div></div>
+<div id="groups"></div>
+<div class="card"><button id="clr">清除</button> <span class="small">折算：3 個低階 = 1 個高階，掌控者 = 9 個初階。</span></div>
+<footer class="small">
+<p>依 3.3 公開資訊整理，數量以遊戲內為準。</p>
+<p>遊戲素材版權屬 HoYoverse。</p>
+<p>資料只存在你自己的瀏覽器（localStorage），不會上傳到任何地方。</p>
+</footer>
+</main>
+<script>
+(function(){
+var G=[
+ {k:'seal',t:'突破',n:'異常認證章',target:370,tiers:[['初階異常認證章',1,4,'seal1'],['高階異常認證章',3,32,'seal2'],['掌控者認證章',9,30,'seal3']]},
+ {k:'chip',t:'技能',n:'引燃晶片',target:2500,tiers:[['基礎引燃晶片',1,25,'chip1'],['進階引燃晶片',3,75,'chip2'],['特化引燃晶片',9,250,'chip3']]},
+ {k:'feather',t:'高維資料',n:'喋血穢羽',target:60,tiers:[['喋血穢羽',1,60,'feather']]}
+];
+var KEY='phoenix-prefarm-v1',DATE=new Date('2026-10-21T00:00:00+08:00');
+var S={};try{S=JSON.parse(localStorage.getItem(KEY))||{};}catch(e){S={};}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function num(v){v=Math.floor(Number(v));return isFinite(v)&&v>0?Math.min(v,1e7):0;}
+function fmt(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,',');}
+function cls(p){return 'bar '+(p<50?'low':p<75?'mid':'hi');}
+function eq(g){var v=0;g.tiers.forEach(function(t,i){v+=num((S[g.k]||[])[i])*t[1];});return v;}
+function countdown(){
+  var tw=new Date(Date.now()+8*3600e3),today=Date.UTC(tw.getUTCFullYear(),tw.getUTCMonth(),tw.getUTCDate());
+  var d=Math.round((Date.UTC(2026,9,21)-today)/864e5);
+  return d>0?'3.3 開放日 10/21，還有 '+d+' 天':d===0?'今天 10/21 開放':'10/21 已開放';
+}
+function build(){
+  var h='';
+  G.forEach(function(g){
+    h+='<section class="card" data-g="'+g.k+'"><div class="row"><b>'+g.t+'：'+g.n+'</b><span class="small s"></span></div><div class="bar"><i></i></div><div class="items">';
+    g.tiers.forEach(function(t,j){
+      h+='<label><span class="n"><img src="assets/'+t[3]+'.png" alt="" width="28" height="28">'+t[0]+(g.tiers.length>1?'（×'+t[1]+'）':'')+'</span><span class="t">目標 '+t[2]+'</span><input type="number" inputmode="numeric" min="0" step="1" placeholder="0" data-g="'+g.k+'" data-i="'+j+'" aria-label="'+t[0]+' 持有數量" value="'+((S[g.k]||[])[j]||'')+'"></label>';
+    });
+    h+='</div></section>';
+  });
+  document.getElementById('groups').innerHTML=h;
+  [].forEach.call(document.querySelectorAll('input[data-g]'),function(x){x.oninput=function(){
+    var k=x.getAttribute('data-g'),i=+x.getAttribute('data-i');if(!S[k])S[k]=[];
+    S[k][i]=x.value===''?'':num(x.value);save();upd();};});
+}
+function upd(){
+  var tot=0,sum=0;
+  G.forEach(function(g){
+    var e=eq(g),p=Math.min(100,Math.round(e/g.target*100));tot+=g.target;sum+=Math.min(e,g.target);
+    var s=document.querySelector('section[data-g="'+g.k+'"]');
+    s.querySelector('.s').textContent='折算 '+fmt(e)+' / '+fmt(g.target)+(g.tiers.length>1?' 初階等值':' 個')+'　'+p+'%';
+    var b=s.querySelector('.bar');b.className=cls(p);b.firstChild.style.width=p+'%';
+  });
+  var a=Math.round(sum/tot*100);
+  document.getElementById('allt').textContent=a+'%';
+  var ab=document.getElementById('allb');ab.className=cls(a);ab.firstChild.style.width=a+'%';
+  document.getElementById('top').textContent=countdown()+' · 輸入持有數量，自動折算進度';
+}
+document.getElementById('clr').onclick=function(){if(confirm('清除所有已輸入的數量？')){S={};save();build();upd();}};
+build();upd();
+})();
+</script>
+</body>
+</html>
