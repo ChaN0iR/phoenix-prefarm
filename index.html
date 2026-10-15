@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>菲歐妮 Phoenix 預刷材料追蹤</title>
-<meta name="description" content="絕區零 3.3 菲歐妮 Phoenix 預刷材料追蹤：輸入持有數量，自動折算進度。資料只存在你的瀏覽器。">
+<title>菲歐妮 Phoenix 完整養成材料追蹤</title>
+<meta name="description" content="絕區零 3.3 菲歐妮 Phoenix 完整養成材料追蹤：涵蓋突破、技能、核心技、音擎與丁尼、經驗的完整材料清單，輸入持有數量即算進度。資料只存在你的瀏覽器。">
 <meta property="og:type" content="website">
-<meta property="og:title" content="菲歐妮 Phoenix 預刷材料追蹤">
-<meta property="og:description" content="輸入持有數量，自動折算異常認證章、引燃晶片、喋血穢羽的預刷進度。資料只存在你的瀏覽器。">
-<meta property="og:image" content="https://chan0ir.github.io/phoenix-prefarm/assets/feather.png">
+<meta property="og:title" content="菲歐妮 Phoenix 完整養成材料追蹤">
+<meta property="og:description" content="突破、技能、核心技、音擎與丁尼、經驗的完整材料進度。資料只存在你的瀏覽器。">
+<meta property="og:image" content="https://chan0ir.github.io/phoenix-prefarm/assets/feather.png?v=3">
 <meta name="twitter:card" content="summary">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
@@ -23,6 +23,7 @@ h1{font-size:1.4rem;margin:8px 0 4px}
 .bar{height:8px;background:#e7e5e4;border-radius:4px;overflow:hidden}
 .bar i{display:block;height:100%;width:0;background:#a8a29e;transition:width .2s}
 .bar.mid i{background:#d97706}.bar.hi i{background:#16a34a}.bar.low i{background:#dc2626}
+.items+.items{border-top:1px dashed #e7e5e4;padding-top:8px}
 .items{display:flex;flex-wrap:wrap;gap:8px 12px;margin-top:10px}
 .items label{display:flex;flex-direction:column;gap:2px;flex:1 1 140px;min-width:0}
 .n{display:flex;align-items:center;gap:6px;line-height:1.2;font-size:.9rem}
@@ -30,37 +31,74 @@ h1{font-size:1.4rem;margin:8px 0 4px}
 .t{color:#78716c;font-size:.8rem}
 input{width:100%;text-align:right;font-size:16px;padding:6px 8px;border:1px solid #d6d3d1;border-radius:6px;background:#fff}
 button{font:inherit;font-size:.9rem;padding:4px 14px;border:1px solid #a8a29e;background:#fff;border-radius:6px;cursor:pointer}
+#src ul{margin:6px 0 10px;padding-left:20px}#src li{margin:3px 0;word-break:break-all}
 footer{margin:20px 0 40px}footer p{margin:4px 0}
 @media(max-width:480px){.items label{flex-basis:45%}}
 </style>
 </head>
 <body>
 <main>
-<h1>菲歐妮 Phoenix 預刷材料追蹤</h1>
+<h1>菲歐妮 Phoenix 完整養成材料追蹤</h1>
 <div class="small" id="top"></div>
-<div class="card"><div class="row"><b>總進度</b><span class="small" id="allt"></span></div><div class="bar" id="allb"><i></i></div></div>
+<div class="card"><div class="row"><b>總進度</b><span class="small" id="allt"></span></div><div class="bar" id="allb"><i></i></div>
+<div class="small" style="margin-top:6px">範圍：角色 Lv1-60、五項技能 Lv12、核心技 A-F、專屬音擎 Lv60（音擎部分未核實）。不含意象影畫、驅動盤、邦布。</div></div>
 <div id="groups"></div>
-<div class="card"><button id="clr">清除</button> <span class="small">折算：3 個低階 = 1 個高階，掌控者 = 9 個初階。</span></div>
+<div class="card"><button id="clr">清除</button></div>
+<section class="card small" id="src">
+<b>需求明細</b>
+<ul>
+<li>角色 Lv1-60：丁尼 800,000；初階異常認證章 4（Lv20）、高階 12（Lv30）、高階 20（Lv40）、掌控者 10（Lv50）、掌控者 20（Lv60）；資深調查員記錄 300。</li>
+<li>技能（單項 Lv1→12，共 5 項）：丁尼 500,000、基礎引燃晶片 5、進階 15、特化 50、倉鼠籠訪問器 1。五項合計：丁尼 2,500,000、基礎 25、進階 75、特化 250、倉鼠籠訪問器 5。</li>
+<li>核心技 A→F：丁尼 405,000、喋血穢羽 60（B 2、C 4、D 9、E 15、F 30）、贗造離核 9（D 2、E 3、F 4）。</li>
+<li>角色合計丁尼：800,000 + 2,500,000 + 405,000 = 3,705,000。</li>
+<li>專屬音擎 Lv60（未核實）：丁尼 400,000、音擎能源模組 200、異常組件 4、增強型異常組件 32、特化型異常組件 30。</li>
+</ul>
+<b>資料來源</b>
+<ul>
+<li>角色突破、經驗、技能、核心技：嗶哩嗶哩 絕區零 Wiki「菲歐妮」頁（2026-09-22 更新）https://wiki.biligame.com/zzz/菲欧妮 ；與 hthgaming.com 菲歐妮材料表、uu-top.com 材料總表數字一致。</li>
+<li>各材料名稱與用途：嗶哩嗶哩 絕區零 Wiki 各材料詞條（簡體轉繁體；「倉鼠籠訪問器」「贗造離核」「資深調查員記錄」另見遊戲狂、巴哈姆特絕區零哈啦板攻略串）。</li>
+<li>丁尼合計 3,705,000：上列三項相加，並與 uu-top.com、zw148.com 合計相符。</li>
+<li>專屬音擎「涅槃初翎」：名稱見 ldshop.gg、wishgm.com 繁中攻略；英文資料對名稱說法不一，官方繁中名稱未核實。材料量為 S 級音擎通用需求（zw148.com、uu-top.com），是否適用於此音擎未核實，標示「未核實」。</li>
+<li>音擎材料繁中名稱「音擎能源模組」見 GameVika；三種異常組件繁中名稱為簡體詞條轉換，未核實。</li>
+<li>菲歐妮於 3.3（10/21）上線，以上為上線前整理的資料，一切以遊戲內為準。</li>
+</ul>
+</section>
 <footer class="small">
-<p>依 3.3 公開資訊整理，數量以遊戲內為準。</p>
+<p>依 3.3 公開資訊整理，數量以遊戲內為準。標示「未核實」的數字尚無官方來源確認。</p>
 <p>遊戲素材版權屬 HoYoverse。</p>
 <p>資料只存在你自己的瀏覽器（localStorage），不會上傳到任何地方。</p>
 </footer>
 </main>
 <script>
 (function(){
-var G=[
- {k:'seal',t:'突破',n:'異常認證章',target:370,tiers:[['初階異常認證章',1,4,'seal1'],['高階異常認證章',3,32,'seal2'],['掌控者認證章',9,30,'seal3']]},
- {k:'chip',t:'技能',n:'引燃晶片',target:2500,tiers:[['基礎引燃晶片',1,25,'chip1'],['進階引燃晶片',3,75,'chip2'],['特化引燃晶片',9,250,'chip3']]},
- {k:'feather',t:'高維資料',n:'喋血穢羽',target:60,tiers:[['喋血穢羽',1,60,'feather']]}
+var V='?v=3';
+/* item: k=儲存鍵, n=名稱, tiers=[名稱,內部折算權重,目標,圖,未核實?] */
+var C=[
+ {t:'突破材料',items:[
+  {k:'seal',n:'異常認證章',tiers:[['初階異常認證章',1,4,'seal1'],['高階異常認證章',3,32,'seal2'],['掌控者認證章',9,30,'seal3']]}]},
+ {t:'技能材料',items:[
+  {k:'chip',n:'引燃晶片',tiers:[['基礎引燃晶片',1,25,'chip1'],['進階引燃晶片',3,75,'chip2'],['特化引燃晶片',9,250,'chip3']]},
+  {k:'hamster',n:'倉鼠籠訪問器',tiers:[['倉鼠籠訪問器',1,5,'hamster']]}]},
+ {t:'核心技',items:[
+  {k:'feather',n:'喋血穢羽',tiers:[['高維資料：喋血穢羽',1,60,'feather']]},
+  {k:'nucleus',n:'贗造離核',tiers:[['贗造離核',1,9,'nucleus']]}]},
+ {t:'音擎（專屬音擎「涅槃初翎」，整組未核實）',items:[
+  {k:'ecomp',n:'異常組件',tiers:[['異常組件',1,4,'comp1',1],['增強型異常組件',3,32,'comp2',1],['特化型異常組件',9,30,'comp3',1]]},
+  {k:'module',n:'音擎能源模組',tiers:[['音擎能源模組',1,200,'module',1]]},
+  {k:'edenny',n:'音擎丁尼',tiers:[['丁尼（音擎）',1,400000,'denny',1]]}]},
+ {t:'通用（丁尼、經驗）',items:[
+  {k:'denny',n:'丁尼',tiers:[['丁尼（角色）',1,3705000,'denny']]},
+  {k:'logs',n:'資深調查員記錄',tiers:[['資深調查員記錄',1,300,'logs']]}]}
 ];
 var KEY='phoenix-prefarm-v1',DATE=new Date('2026-10-21T00:00:00+08:00');
 var S={};try{S=JSON.parse(localStorage.getItem(KEY))||{};}catch(e){S={};}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
-function num(v){v=Math.floor(Number(v));return isFinite(v)&&v>0?Math.min(v,1e7):0;}
+function num(v){v=Math.floor(Number(v));return isFinite(v)&&v>0?Math.min(v,1e8):0;}
 function fmt(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,',');}
 function cls(p){return 'bar '+(p<50?'low':p<75?'mid':'hi');}
+function tgt(g){var v=0;g.tiers.forEach(function(t){v+=t[1]*t[2];});return v;}
 function eq(g){var v=0;g.tiers.forEach(function(t,i){v+=num((S[g.k]||[])[i])*t[1];});return v;}
+function frac(g){return Math.min(1,eq(g)/tgt(g));}
 function countdown(){
   var tw=new Date(Date.now()+8*3600e3),today=Date.UTC(tw.getUTCFullYear(),tw.getUTCMonth(),tw.getUTCDate());
   var d=Math.round((Date.UTC(2026,9,21)-today)/864e5);
@@ -68,12 +106,16 @@ function countdown(){
 }
 function build(){
   var h='';
-  G.forEach(function(g){
-    h+='<section class="card" data-g="'+g.k+'"><div class="row"><b>'+g.t+'：'+g.n+'</b><span class="small s"></span></div><div class="bar"><i></i></div><div class="items">';
-    g.tiers.forEach(function(t,j){
-      h+='<label><span class="n"><img src="assets/'+t[3]+'.png" alt="" width="28" height="28">'+t[0]+(g.tiers.length>1?'（×'+t[1]+'）':'')+'</span><span class="t">目標 '+t[2]+'</span><input type="number" inputmode="numeric" min="0" step="1" placeholder="0" data-g="'+g.k+'" data-i="'+j+'" aria-label="'+t[0]+' 持有數量" value="'+((S[g.k]||[])[j]||'')+'"></label>';
+  C.forEach(function(c,ci){
+    h+='<section class="card" data-c="'+ci+'"><div class="row"><b>'+c.t+'</b><span class="small s"></span></div><div class="bar"><i></i></div>';
+    c.items.forEach(function(g){
+      h+='<div class="items" data-g="'+g.k+'">';
+      g.tiers.forEach(function(t,j){
+        h+='<label><span class="n"><img src="assets/'+t[3]+'.png'+V+'" alt="" width="28" height="28">'+t[0]+'</span><span class="t">目標 '+fmt(t[2])+(t[4]?'（未核實）':'')+'</span><input type="number" inputmode="numeric" min="0" step="1" placeholder="0" data-g="'+g.k+'" data-i="'+j+'" aria-label="'+t[0]+' 持有數量" value="'+((S[g.k]||[])[j]||'')+'"></label>';
+      });
+      h+='</div>';
     });
-    h+='</div></section>';
+    h+='</section>';
   });
   document.getElementById('groups').innerHTML=h;
   [].forEach.call(document.querySelectorAll('input[data-g]'),function(x){x.oninput=function(){
@@ -81,17 +123,18 @@ function build(){
     S[k][i]=x.value===''?'':num(x.value);save();upd();};});
 }
 function upd(){
-  var tot=0,sum=0;
-  G.forEach(function(g){
-    var e=eq(g),p=Math.min(100,Math.round(e/g.target*100));tot+=g.target;sum+=Math.min(e,g.target);
-    var s=document.querySelector('section[data-g="'+g.k+'"]');
-    s.querySelector('.s').textContent='折算 '+fmt(e)+' / '+fmt(g.target)+(g.tiers.length>1?' 初階等值':' 個')+'　'+p+'%';
+  var all=0,n=0;
+  C.forEach(function(c,ci){
+    var sum=0;c.items.forEach(function(g){sum+=frac(g);all+=frac(g);n++;});
+    var p=Math.round(sum/c.items.length*100);
+    var s=document.querySelector('section[data-c="'+ci+'"]');
+    s.querySelector('.s').textContent=p+'%';
     var b=s.querySelector('.bar');b.className=cls(p);b.firstChild.style.width=p+'%';
   });
-  var a=Math.round(sum/tot*100);
+  var a=Math.round(all/n*100);
   document.getElementById('allt').textContent=a+'%';
   var ab=document.getElementById('allb');ab.className=cls(a);ab.firstChild.style.width=a+'%';
-  document.getElementById('top').textContent=countdown()+' · 輸入持有數量，自動折算進度';
+  document.getElementById('top').textContent=countdown()+' · 輸入持有數量，自動計算進度';
 }
 document.getElementById('clr').onclick=function(){if(confirm('清除所有已輸入的數量？')){S={};save();build();upd();}};
 build();upd();
